@@ -6,18 +6,20 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [15.x]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js version ${{matrix.node-vrsion}}
+    - name: Use Node.js version ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
-        node-version: ${{matrix.node-vrsion}}
-
+        node-version: ${{ matrix.node-version }}
+    
     - run: npm i
     - run: npm install -g firebase-tools
     - run: npm run test
@@ -39,9 +41,9 @@ jobs:
         with:
           name: build
           path: build
-      - name: Deploy To Firebase
+      - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
         env:
-          FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
